@@ -1,0 +1,135 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>SMSV Orban Ministry</title>
+  <link rel="manifest" href="manifest.webmanifest" />
+  <style>
+    :root {
+      --bg: #0f172a; /* slate-900 */
+      --card: #111827; /* gray-900 */
+      --text: #e5e7eb; /* gray-200 */
+      --accent: #14b8a6; /* teal-500 */
+      --muted: #9ca3af; /* gray-400 */
+    }
+    body { margin: 0; background: var(--bg); color: var(--text); font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif; }
+    header { display: flex; align-items: center; gap: 1rem; padding: 1rem; border-bottom: 1px solid #334155; }
+    header img { width: 64px; height: 64px; object-fit: cover; border-radius: 8px; background:#1f2937; }
+    h1 { font-size: 1.5rem; margin: 0; }
+    main { max-width: 900px; margin: 0 auto; padding: 1rem; }
+    .card { background: var(--card); border: 1px solid #334155; border-radius: 12px; padding: 1rem; margin-bottom: 1rem; }
+    label { display:block; margin-bottom: .5rem; color: var(--muted); }
+    select { width: 100%; padding: .75rem; border-radius: 10px; border: 1px solid #374151; background:#0b1020; color: var(--text); }
+    .grid { display:grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1rem; }
+    .metric { background:#0b1020; border:1px solid #1f2937; border-radius:10px; padding: .75rem; }
+    .metric h3 { margin:.25rem 0; font-size:1rem; color: var(--muted); }
+    .metric p { margin:0; font-size:1.25rem; font-weight:600; }
+    .note { margin-top:.75rem; color:#fbbf24; }
+    .footer { margin-top:2rem; color: var(--muted); font-size:.85rem; }
+    .toggle { display:flex; gap:1rem; align-items:center; }
+    .toggle input { transform: scale(1.3); }
+  </style>
+</head>
+<body>
+  <header>
+    <img src="orban.png" alt="Orban image" />
+    <h1>SMSV Orban Ministry</h1>
+  </header>
+  <main>
+    <div class="card">
+      <label for="daySelect">Pick the day</label>
+      <select id="daySelect"></select>
+      <div class="toggle" style="margin-top:1rem"> 
+        <label>Yeast ratio</label>
+        <label><input type="radio" name="yeast" value="3" checked /> Standard (3 g/kg)</label>
+        <label><input type="radio" name="yeast" value="4" /> Winter (4 g/kg)</label>
+      </div>
+    </div>
+
+    <div class="grid">
+      <div class="card">
+        <h2>Summary</h2>
+        <div class="grid">
+          <div class="metric"><h3>Number of batches</h3><p id="batches">-</p></div>
+          <div class="metric"><h3>Batch total weight</h3><p id="batchTotal">-</p></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>Step 1 – Scalding Paste (Batch 1)</h2>
+        <div class="grid">
+          <div class="metric"><h3>Boiling water</h3><p id="boilWater">-</p></div>
+          <div class="metric"><h3>Flour</h3><p id="pasteFlour">-</p></div>
+          <div class="metric"><h3>Paste total</h3><p id="pasteTotal">-</p></div>
+        </div>
+        <p class="note">Wait <strong>15 minutes minimum</strong> for paste to cool down before mixing Step 2.</p>
+      </div>
+
+      <div class="card">
+        <h2>Step 2 – Dough Mixture (per batch)</h2>
+        <div class="grid">
+          <div class="metric"><h3>Yeast</h3><p id="yeast">-</p></div>
+          <div class="metric"><h3>Flour</h3><p id="flourKg">-</p></div>
+          <div class="metric"><h3>Water</h3><p id="waterMl">-</p></div>
+          <div class="metric"><h3>Total (without paste)</h3><p id="step2Total">-</p></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer">This app works fully offline. To change the image, place a file named <code>orban.png</code> in the same folder.</div>
+  </main>
+
+  <script>
+    const DATA = {"Saturday": {"batches": 2, "paste_weight_g": 6345.0, "boiling_water_g": 3645.0000000000005, "paste_flour_g": 2700.0, "batch_total_weight_g": 21150.0, "step2_total_without_paste_g": 14805.0, "yeast_3g_perkg_g": 63.449999999999996, "yeast_4g_perkg_g": 84.6, "step2_flour_kg": 10.0, "step2_water_ml": 6500.0}, "Friday": {"batches": 1, "paste_weight_g": 3105.0, "boiling_water_g": 4193.5725, "paste_flour_g": 3106.35, "batch_total_weight_g": 10350.0, "step2_total_without_paste_g": 7245.0, "yeast_3g_perkg_g": 31.049999999999997, "yeast_4g_perkg_g": 41.39999999999999, "step2_flour_kg": 5.0, "step2_water_ml": 3250.0}, "Wednesday": {"batches": 1, "paste_weight_g": 1785.0, "boiling_water_g": 3418.085106382979, "paste_flour_g": 2531.9148936170213, "batch_total_weight_g": 5950.0, "step2_total_without_paste_g": 4165.0, "yeast_3g_perkg_g": 17.85, "yeast_4g_perkg_g": 23.8, "step2_flour_kg": 3.0, "step2_water_ml": 1950.0}, "Monday": {"batches": 1, "paste_weight_g": 1785.0, "boiling_water_g": 3418.085106382979, "paste_flour_g": 2531.9148936170213, "batch_total_weight_g": 5950.0, "step2_total_without_paste_g": 4165.0, "yeast_3g_perkg_g": 17.85, "yeast_4g_perkg_g": 23.8, "step2_flour_kg": 3.0, "step2_water_ml": 1950.0}};
+
+    function fmt(n, unit) {
+      const v = Number(n);
+      if (Number.isFinite(v)) return new Intl.NumberFormat(undefined, { maximumFractionDigits: 2 }).format(v) + (unit?` ${unit}`:'');
+      return '-';
+    }
+
+    function populateDays() {
+      const sel = document.getElementById('daySelect');
+      sel.innerHTML = '';
+      Object.keys(DATA).forEach(d => {
+        const opt = document.createElement('option'); opt.value = d; opt.textContent = d; sel.appendChild(opt);
+      });
+      sel.value = Object.keys(DATA)[0];
+      update();
+    }
+
+    function currentYeastValue(day) {
+      const radios = document.querySelectorAll('input[name=yeast]');
+      const r = Array.from(radios).find(x=>x.checked)?.value || '3';
+      return r === '4' ? DATA[day].yeast_4g_perkg_g : DATA[day].yeast_3g_perkg_g;
+    }
+
+    function update() {
+      const day = document.getElementById('daySelect').value;
+      const rec = DATA[day];
+      document.getElementById('batches').textContent = fmt(rec.batches);
+      document.getElementById('batchTotal').textContent = fmt(rec.batch_total_weight_g, 'g');
+
+      document.getElementById('boilWater').textContent = fmt(rec.boiling_water_g, 'g / ml');
+      document.getElementById('pasteFlour').textContent = fmt(rec.paste_flour_g, 'g');
+      document.getElementById('pasteTotal').textContent = fmt(rec.paste_weight_g, 'g');
+
+      document.getElementById('yeast').textContent = fmt(currentYeastValue(day), 'g');
+      document.getElementById('flourKg').textContent = fmt(rec.step2_flour_kg, 'kg');
+      document.getElementById('waterMl').textContent = fmt(rec.step2_water_ml, 'ml');
+      document.getElementById('step2Total').textContent = fmt(rec.step2_total_without_paste_g, 'g');
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      populateDays();
+      document.getElementById('daySelect').addEventListener('change', update);
+      document.querySelectorAll('input[name=yeast]').forEach(r => r.addEventListener('change', update));
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('./service-worker.js').catch(()=>{});
+      }
+    });
+  </script>
+</body>
+</html>
